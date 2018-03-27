@@ -9,6 +9,7 @@ router.get("/", function(req, res){
 });
 
 
+// REGISTER ROUTE
 router.get("/register", function(req, res){
   res.render("register");
 });
@@ -27,6 +28,7 @@ router.post("/register", function(req, res){
 });
 
 
+// LOGIN ROUTE
 router.get("/login", function(req, res){
   res.render("login");
 });
@@ -38,6 +40,7 @@ router.post("/login", passport.authenticate("local",
 });
 
 
+// LOGOUT
 router.get("/logout", function(req, res){
   req.logout();
   //req.flash("success", "Successfully Logged Out");
