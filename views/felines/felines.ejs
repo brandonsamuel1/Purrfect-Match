@@ -1,0 +1,29 @@
+<% include ../partials/header %>
+
+
+<div class="container">
+  <header class="jumbotron">
+    <div class="container">
+      <h1>Find your Purrfect Match!</h1>
+      <p>Search from over hundred felines for you to pick from.</p>
+    </div>
+  </header>
+
+  <div class="row text-center" style="display: flex; flex-wrap: wrap;">
+    <% felines.forEach(function(feline){ %>
+      <div class="col-md-3 col-sm-6">
+        <div class="thumbnail">
+
+          <img src="<%= feline.image %>">
+          <div class="camption">
+            <h4><%= feline.name %></h4>
+          </div>
+          <p><a class="btn btn-info" href="/felines/<%= feline._id %>">More Info</a></p>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+
+<% include ../partials/footer %>
