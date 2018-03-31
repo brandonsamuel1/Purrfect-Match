@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const methodOverride = require("method-override");
 const User = require("./models/user");
 
 const authRoutes = require("./routes/index");
@@ -14,7 +15,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 //app.use(expressSanitizer());
-//app.use(methodOverride("_method"));
+app.use(methodOverride("_method"));
 
 
 app.use(passport.initialize());
