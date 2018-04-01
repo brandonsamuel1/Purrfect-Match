@@ -70,6 +70,7 @@ router.put("/:id", middleware.ownFeline, function(req, res){
     if(err){
       res.render("felines/edit");
     } else{
+      req.flash("success", "Post Updated!");
       res.redirect("/felines/" + req.params.id);
     }
   })
@@ -82,6 +83,7 @@ router.delete("/:id", middleware.ownFeline, function(req, res){
     if(err){
       console.log(err);
     } else{
+      req.flash("success", "Post Deleted!");
       res.redirect("/felines");
     }
   })

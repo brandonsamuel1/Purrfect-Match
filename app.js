@@ -9,11 +9,13 @@ const User = require("./models/user");
 const Felines = require("./models/felines");
 const Comment = require("./models/comments");
 const flash = require("connect-flash");
+const seedDB = require("./seeds");
 
 const authRoutes = require("./routes/index");
 const felineRoutes = require("./routes/felines");
 const commentRoutes = require("./routes/comments");
 
+seedDB();
 mongoose.connect("mongodb://localhost/purrfect");
 app.set("view engine", "ejs");
 app.use(express.static("public"));
