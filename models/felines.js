@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const felinesSchema = new mongoose.Schema({
+const felineSchema = new mongoose.Schema({
   name: String,
   image: String,
   age: String,
@@ -18,4 +18,4 @@ const felinesSchema = new mongoose.Schema({
   ]
 });
 
-module.exports = mongoose.model("Felines", felinesSchema);
+module.exports = mongoose.model("Feline", felineSchema);

@@ -14,14 +14,15 @@ router.get("/", function(req, res){
   })
 });
 
-//CREATING NEW FELINES PAGE
+//CREATING NEW FELINES
 router.post("/", function(req, res){
   let name = req.body.name;
   let image = req.body.image;
   let desc = req.body.description;
   let age = req.body.age;
   let breed = req.body.breed;
-  let newFeline = {name: name, image: image, description: desc, age: age, breed: breed}
+  let author = {id: req.user._id, username: req.user.username}
+  let newFeline = {name: name, image: image, description: desc, age: age, breed: breed, author: author}
   Felines.create(newFeline, function(err, newlyCreated){
     if(err) {
       console.log(err);
@@ -40,7 +41,7 @@ router.get("/new", function(req, res){
 
 //DISPLAYING A SINGLE FELINE PAGE
 router.get("/:id", function(req, res){
-  Felines.findById(req.params.id, function(err, foundFeline){
+  Felines.findById(req.params.id).populate("comments").exec(function(err, foundFeline){
     if(err){
       console.log(err);
     } else {
