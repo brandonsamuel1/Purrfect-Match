@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Felines = require("../models/felines");
+const middleware = require("../middleware/index");
 
 
 //HOME PAGE
@@ -15,7 +16,7 @@ router.get("/", function(req, res){
 });
 
 //CREATING NEW FELINES
-router.post("/", function(req, res){
+router.post("/", middleware.isLoggedIn, function(req, res){
   let name = req.body.name;
   let image = req.body.image;
   let desc = req.body.description;
@@ -34,7 +35,7 @@ router.post("/", function(req, res){
 
 
 //SHOWING CREATE NEW PAGE
-router.get("/new", function(req, res){
+router.get("/new", middleware.isLoggedIn, function(req, res){
   res.render("felines/new");
 });
 
@@ -52,7 +53,7 @@ router.get("/:id", function(req, res){
 
 
 //EDIT SINGLE FELINE PAGE
-router.get("/:id/edit", function(req, res){
+router.get("/:id/edit", middleware.ownFeline, function(req, res){
   Felines.findById(req.params.id, function(err, foundFeline){
     if(err){
       console.log(err);
@@ -64,7 +65,7 @@ router.get("/:id/edit", function(req, res){
 
 
 //UPDATING A SINGLE FELINE
-router.put("/:id", function(req, res){
+router.put("/:id", middleware.ownFeline, function(req, res){
   Felines.findByIdAndUpdate(req.params.id, req.body.feline, function(err, updatedFeline){
     if(err){
       res.render("felines/edit");
@@ -76,7 +77,7 @@ router.put("/:id", function(req, res){
 
 
 //DELETING A SINGLE FELINE
-router.delete("/:id", function(req, res){
+router.delete("/:id", middleware.ownFeline, function(req, res){
   Felines.findByIdAndRemove(req.params.id, function(err){
     if(err){
       console.log(err);

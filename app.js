@@ -8,6 +8,7 @@ const methodOverride = require("method-override");
 const User = require("./models/user");
 const Felines = require("./models/felines");
 const Comment = require("./models/comments");
+const flash = require("connect-flash");
 
 const authRoutes = require("./routes/index");
 const felineRoutes = require("./routes/felines");
@@ -19,6 +20,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 //app.use(expressSanitizer());
 app.use(methodOverride("_method"));
+app.use(flash());
 
 
 app.use(require("express-session")({
@@ -37,6 +39,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
   res.locals.currentUser = req.user;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
 });
 

@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router({mergeParams: true});
 const Feline = require("../models/felines");
 const Comment = require("../models/comments");
+const middleware = require("../middleware/index");
 
 
 //WRITE A COMMENT PAGE
-router.get("/new", function(req, res){
+router.get("/new", middleware.isLoggedIn, function(req, res){
   Feline.findById(req.params.id, function(err, feline){
     if(err){
       console.log(err);
@@ -25,7 +26,7 @@ router.post("/", function(req, res){
     } else {
       Comment.create(req.body.comment, function(err, comment){
         if(err){
-          //req.flash("error", "Something Went Wrong! :(");
+          req.flash("error", "Something Went Wrong! :(");
           console.log(err);
         } else {
           comment.author.id = req.user._id;
@@ -33,7 +34,7 @@ router.post("/", function(req, res){
           comment.save();
           feline.comments.push(comment._id);
           feline.save();
-          //req.flash("success", "Successfully Added Comment");
+          req.flash("success", "Successfully Added Comment");
           res.redirect("/felines/" + feline._id);
         }
       })
@@ -43,7 +44,7 @@ router.post("/", function(req, res){
 
 
 //DELETE COMMENT ON SINGLE FELINE PAGE
-router.delete("/:comment_id", function(req, res){
+router.delete("/:comment_id", middleware.ownComment, function(req, res){
   Comment.findByIdAndRemove(req.params.comment_id, function(err){
     if(err) {
       res.redirect("back");
