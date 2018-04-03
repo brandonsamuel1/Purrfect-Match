@@ -15,7 +15,7 @@ const authRoutes = require("./routes/index");
 const felineRoutes = require("./routes/felines");
 const commentRoutes = require("./routes/comments");
 
-seedDB();
+//seedDB();
 mongoose.connect("mongodb://localhost/purrfect");
 app.set("view engine", "ejs");
 app.use(express.static("public"));

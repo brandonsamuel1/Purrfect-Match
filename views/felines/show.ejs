@@ -9,7 +9,40 @@
         <li class="list-group-item">Info 2</li>
         <li class="list-group-item">Info 3</li>
       </div>
+      <button id="adoptBtn" class="btn btn-success btn-lg">Adopt Me!</button>
     </div>
+    <div id="adoptModal" role="dialog" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" data-dismiss="modal" class="close">&times;</button>
+            <h4 class="modal-title">Confirm Adoption for <%= feline.name %>!</h4>
+          </div>
+          <div class="modal-body">
+            <% if(currentUser) { %>
+            <img src="<%= feline.image %>" id="imagepreview" style="width: 350px; height: 244px;">
+            <hr>
+            <p><strong>Breed: <%= feline.breed %></strong></p>
+            <p><strong>Age: </strong><%= feline.age %></p>
+            <p> <strong>Description:</strong> <%= feline.description %></p>
+            <br>
+            <p><strong>Do you wish to continue with this adoption?</strong></p>
+            <% } else { %>
+            <p>Please <a href="/login">Login</a>!</p>
+            <% } %>
+          </div>
+          <div class="modal-footer">
+            <% if(currentUser) { %>
+            <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+            <button id="confirmAdopt" type="button" class="btn btn-success">Adopt!</button>
+            <% } else { %>
+            <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="col-md-9">
       <div class="thumbnail">
         <img class="img-responsive" src="<%= feline.image %>">
@@ -51,5 +84,15 @@
   </div>
 </div>
 
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#adoptBtn').click(function() {
+      $('#imagepreview').attr('src', $('#imageresource').attr('src'))
+      $('#adoptModal').modal('show');
+    });
+  });
+</script>
 
 <% include ../partials/footer %>
