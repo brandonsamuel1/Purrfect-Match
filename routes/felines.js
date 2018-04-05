@@ -95,9 +95,10 @@ router.delete("/:id", middleware.ownFeline, function(req, res){
 
 //ADOPTING A FELINE
 router.get("/:id/adoption", function(req, res){
+  let currentUser = req.user.email;
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   const msg = {
-    to: 'brandonsamuel72@gmail.com',
+    to: currentUser,
     from: 'purrfectmatch@gmail.com',
     subject: 'Thank You For Your Adoption!',
     text: 'I hope you enjoy your new adoption!',
