@@ -9,7 +9,7 @@ require('dotenv').config();
 
 //HOME PAGE
 router.get("/", function(req, res){
-  Felines.find({}, function(err, allFelines){
+  Felines.find({ isAdopted: false }, function(err, allFelines){
     if(err){
       console.log(err);
     } else {
@@ -96,6 +96,9 @@ router.delete("/:id", middleware.ownFeline, function(req, res){
 //ADOPTING A FELINE
 router.get("/:id/adoption", function(req, res){
   let currentUser = req.user.email;
+  Felines.findByIdAndUpdate(req.params.id, { isAdopted: true }, function(err){
+    if(err) throw err;
+  });
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   const msg = {
     to: currentUser,
@@ -106,7 +109,6 @@ router.get("/:id/adoption", function(req, res){
   };
   sgMail.send(msg);
   console.log("Email sent...");
-  //res.redirect("/felines/" + req.params.id);
 });
 
 module.exports = router;

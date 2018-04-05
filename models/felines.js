@@ -6,6 +6,7 @@ const felineSchema = new mongoose.Schema({
   age: String,
   breed: String,
   description: String,
+  isAdopted: { type: Boolean, default: false },
   author: {
     id: {
       type: mongoose.Schema.Types.ObjectId,
