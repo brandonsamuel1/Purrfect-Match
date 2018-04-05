@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const User = require("../models/user");
+const middleware = require("../middleware/index");
 
 
 router.get("/", function(req, res){
@@ -24,7 +25,7 @@ router.post("/register", function(req, res){
     }
     passport.authenticate("local")(req, res, function(){
       req.flash("success", "Welcome back " + user.username + "!");
-      res.redirect("/felines");
+      res.redirect("/dashboard");
     })
   })
 });
@@ -37,7 +38,7 @@ router.get("/login", function(req, res){
 
 
 router.post("/login", passport.authenticate("local",
-  {successRedirect: "/felines", failureRedirect: "/login"}),
+  {successRedirect: "/dashboard", failureRedirect: "/login"}),
   function(req, res){
 });
 
@@ -47,6 +48,12 @@ router.get("/logout", function(req, res){
   req.logout();
   req.flash("success", "Successfully Logged Out");
   res.redirect("/login");
+});
+
+
+//DAHSBOARD ROUTE
+router.get("/dashboard", middleware.isLoggedIn, function(req, res){
+  res.render("dashboard");
 });
 
 module.exports = router;

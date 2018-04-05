@@ -10,6 +10,7 @@ const Felines = require("./models/felines");
 const Comment = require("./models/comments");
 const flash = require("connect-flash");
 const seedDB = require("./seeds");
+const sgMail = require('@sendgrid/mail');
 
 const authRoutes = require("./routes/index");
 const felineRoutes = require("./routes/felines");
