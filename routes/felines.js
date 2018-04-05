@@ -94,7 +94,7 @@ router.delete("/:id", middleware.ownFeline, function(req, res){
 
 
 //ADOPTING A FELINE
-router.get("/:id/adoption", function(req, res){
+router.get("/:id/adoption", middleware.isLoggedIn, function(req, res){
   let currentUser = req.user.email;
   Felines.findByIdAndUpdate(req.params.id, { isAdopted: true }, function(err){
     if(err) throw err;
