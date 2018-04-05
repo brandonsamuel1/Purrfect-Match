@@ -34,10 +34,29 @@
           <div class="modal-footer">
             <% if(currentUser) { %>
               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
-              <button id="confirmAdopt" type="button" class="btn btn-success">Adopt!</button>
+              <form action="/felines/<%= feline._id %>/adoption" method="GET">
+                <button id="confirmAdopt" type="submit" class="btn btn-success">Adopt!</button>
+              </form>
             <% } else { %>
               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
             <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="adopted" role="dialog" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" data-dismiss="modal" class="close">&times;</button>
+            <h4 class="modal-title">Thanks For Your Adoption!</h4>
+          </div>
+          <div class="modal-body">
+            <p>You will recieve an email shortly! (check spam mail)</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
           </div>
         </div>
       </div>
@@ -91,6 +110,10 @@
     $('#adoptBtn').click(function() {
       $('#imagepreview').attr('src', $('#imageresource').attr('src'))
       $('#adoptModal').modal('show');
+      $('#confirmAdopt').click(function(){
+        $('#adoptModal').modal('hide');
+        $('#adopted').modal('show');
+      });
     });
   });
 </script>

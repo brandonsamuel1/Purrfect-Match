@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Felines = require("../models/felines");
 const middleware = require("../middleware/index");
+const sgMail = require('@sendgrid/mail');
+
+require('dotenv').config();
 
 
 //HOME PAGE
@@ -30,7 +33,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     } else {
       res.redirect("/felines");
     }
-  })
+  });
 });
 
 
@@ -87,6 +90,22 @@ router.delete("/:id", middleware.ownFeline, function(req, res){
       res.redirect("/felines");
     }
   })
+});
+
+
+//ADOPTING A FELINE
+router.get("/:id/adoption", function(req, res){
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  const msg = {
+    to: 'brandonsamuel72@gmail.com',
+    from: 'purrfectmatch@gmail.com',
+    subject: 'Thank You For Your Adoption!',
+    text: 'I hope you enjoy your new adoption!',
+    html: '<strong>I hope you enjoy your new adoption, we are very pleased to have you welcome your feline friend into your home.</strong>',
+  };
+  sgMail.send(msg);
+  console.log("Email sent...");
+  //res.redirect("/felines/" + req.params.id);
 });
 
 module.exports = router;
